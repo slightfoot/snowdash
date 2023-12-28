@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="10" height="8" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#71a7bf" nextlayerid="10" nextobjectid="8">
+ <editorsettings>
+  <export target="../assets/level1.json" format="json"/>
+ </editorsettings>
+ <tileset firstgid="1" source="../grass_tileset.tsx"/>
+ <layer id="6" name="Background" width="10" height="8">
+  <data encoding="csv">
+451,452,453,454,455,456,457,458,0,0,
+466,467,468,469,470,471,472,473,0,0,
+481,482,483,484,485,486,487,488,489,490,
+496,497,498,499,500,501,502,503,504,505,
+511,512,513,514,515,516,517,518,519,520,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="1" name="Layer 1" width="10" height="8">
+  <data encoding="csv">
+16,0,0,0,0,0,0,0,0,0,
+106,107,19,0,0,0,20,20,20,20,
+46,0,0,0,0,0,0,0,0,0,
+152,0,0,17,107,107,107,19,0,0,
+152,0,0,0,0,35,0,134,0,0,
+152,0,18,18,0,35,0,0,0,0,
+152,0,0,0,0,35,0,0,0,0,
+106,107,107,107,107,18,18,18,18,18
+</data>
+ </layer>
+ <layer id="4" name="Layer 2" width="10" height="8">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,103,104,0,
+0,0,0,0,0,0,0,118,119,0
+</data>
+ </layer>
+</map>

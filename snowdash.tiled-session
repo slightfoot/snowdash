@@ -1,0 +1,62 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "levels/level1.tmx",
+    "automapping.whileDrawing": false,
+    "expandedProjectPaths": [
+        ".",
+        "levels"
+    ],
+    "exportAsImage.drawTileGrid": false,
+    "exportAsImage.includeBackgroundColor": true,
+    "exportAsImage.useCurrentScale": true,
+    "exportAsImage.visibleLayersOnly": true,
+    "file.lastUsedOpenFilter": "Tiled map files (*.tmx)",
+    "fileStates": {
+        "grass_tileset.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 8
+        },
+        "levels/level1.tmx": {
+            "expandedGroupLayers": [
+                7
+            ],
+            "scale": 4.1859375,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 161.13475177304966,
+                "y": 116.93915640164242
+            }
+        }
+    },
+    "last.exportedFilePath": "C:/Users/Simon/Git/snowdash/assets",
+    "last.imagePath": "C:/Users/Simon/Git/snowdash/assets",
+    "map.height": 8,
+    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
+    "map.lastUsedFormat": "tmx",
+    "map.layerDataFormat": 1,
+    "map.orientation": 0,
+    "map.renderOrder": null,
+    "map.tileHeight": 128,
+    "map.tileWidth": 128,
+    "map.width": 10,
+    "openFiles": [
+        "grass_tileset.tsx",
+        "levels/level1.tmx"
+    ],
+    "project": "snowdash.tiled-project",
+    "property.type": "color",
+    "recentFiles": [
+        "grass_tileset.tsx",
+        "levels/level1.tmx"
+    ],
+    "stampsFolder": "D:/Simon/Desktop/adventure-game/Winter",
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.margin": 0,
+    "tileset.spacing": 0,
+    "tileset.transparentColor": "#ff00ff",
+    "tileset.type": 0,
+    "tileset.useTransparentColor": false
+}
