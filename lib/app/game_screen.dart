@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:snowdash/app/assets.dart';
 import 'package:snowdash/game/game.dart';
 import 'package:snowdash/models/level_data.dart';
@@ -13,8 +14,10 @@ class GameScreen extends StatefulWidget {
   State<GameScreen> createState() => _GameScreenState();
 }
 
-class _GameScreenState extends State<GameScreen> {
+class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateMixin {
   late final SnowDashGame game;
+  late final Ticker ticker;
+  Duration? lastElapsed;
 
   @override
   void initState() {
@@ -23,10 +26,20 @@ class _GameScreenState extends State<GameScreen> {
       levelData: widget.levelData,
     );
     game.init();
+    ticker = createTicker(_onTick);
+    ticker.start();
+  }
+
+  void _onTick(Duration elapsed) {
+    lastElapsed ??= elapsed;
+    final deltaTime = (lastElapsed! - elapsed).inMicroseconds / Duration.microsecondsPerMillisecond;
+    game.tick(deltaTime);
+    lastElapsed = elapsed;
   }
 
   @override
   void dispose() {
+    ticker.stop();
     game.dispose();
     super.dispose();
   }
@@ -40,6 +53,7 @@ class _GameScreenState extends State<GameScreen> {
           fit: BoxFit.contain,
           child: CustomPaint(
             painter: GamePainter(
+              game: game,
               images: widget.images,
               levelData: widget.levelData,
             ),
@@ -53,11 +67,12 @@ class _GameScreenState extends State<GameScreen> {
 
 class GamePainter extends CustomPainter {
   GamePainter({
+    required this.game,
     required this.images,
     required this.levelData,
-    super.repaint,
-  });
+  }) : super(repaint: game);
 
+  final SnowDashGame game;
   final ImageAssets images;
   final LevelData levelData;
 
@@ -66,38 +81,29 @@ class GamePainter extends CustomPainter {
     final rect = Offset.zero & size;
 
     // Draw Background
-    canvas.drawRect(rect, Paint()..color = Colors.black);
-    final pos = Alignment.center.inscribe(
-      const Size(16, 16),
-      rect,
-    );
+    canvas.drawRect(rect, Paint()..color = levelData.backgroundColor);
 
     final tilePaint = Paint();
-    final tileSize = Size(32, 32);
+    const tileSize = Size(32, 32);
     final tileSet = images.getImage(ImageAsset.dashTileSet);
-    final tileStride = (tileSet.width / tileSize.width).ceilToDouble();
-    print('stride ${tileStride}');
+    final tileStride = tileSet.width ~/ tileSize.width;
     for (int layerIndex = 0; layerIndex < levelData.layers.length; layerIndex++) {
       final layer = levelData.layers[layerIndex];
-      if (layer.id != 1) {
+      if (layer.visible == false) {
         continue;
       }
-      print('layer ${layer.width} x ${layer.height}');
       for (int row = 0; row < layer.height; row++) {
         for (int col = 0; col < layer.width; col++) {
           int tileIndex = row * layer.width + col;
-          int tileValue = layer.data[tileIndex];
-          if (tileValue == 0) {
+          int tileValue = layer.data[tileIndex] - 1;
+          if (tileValue < 0) {
             continue;
           }
-          print('$tileIndex: $tileValue');
-          final srcOffset = Offset(
-            (tileValue) % tileStride,
-            (tileValue) / tileStride,
-          );
+          final tileCol = (tileValue % tileStride).truncateToDouble();
+          final tileRow = (tileValue / tileStride).truncateToDouble();
           canvas.drawImageRect(
             tileSet,
-            srcOffset & tileSize,
+            Offset(tileCol * 32, tileRow * 32) & tileSize,
             Offset(col * 32, row * 32) & tileSize,
             tilePaint,
           );
@@ -108,11 +114,32 @@ class GamePainter extends CustomPainter {
     // TODO: Draw Level Layer 0
 
     // Draw player
+    final gamePadState = game.gamepad.state;
+    final pos = game.pos;
+    Color playerColor;
+    if (gamePadState.buttonA) {
+      playerColor = Colors.red;
+    } else if (gamePadState.buttonB) {
+      playerColor = Colors.green;
+    } else if (gamePadState.buttonC) {
+      playerColor = Colors.blue;
+    } else if (gamePadState.buttonX) {
+      playerColor = Colors.purple;
+    } else if (gamePadState.buttonY) {
+      playerColor = Colors.deepOrange;
+    } else if (gamePadState.buttonZ) {
+      playerColor = Colors.yellow;
+    } else {
+      playerColor = Colors.white;
+    }
     canvas.drawImage(
-      images.getImage(ImageAsset.dashStanding),
-      pos.topLeft,
-      Paint(),
-    );
+        images.getImage(ImageAsset.dashStanding),
+        Offset(pos.x, pos.y),
+        Paint()
+          ..colorFilter = ColorFilter.mode(
+            playerColor,
+            BlendMode.modulate,
+          ));
 
     // TODO: Draw Level Layer 1
 

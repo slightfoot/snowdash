@@ -8,6 +8,8 @@ environment:
 
 dependencies:
   win32: ^5.1.1
+  ffi:
+  vector_math:
   flutter:
     sdk: flutter
 
