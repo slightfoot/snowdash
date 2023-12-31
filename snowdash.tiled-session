@@ -47,7 +47,7 @@
         "levels/level1.tmx"
     ],
     "project": "snowdash.tiled-project",
-    "property.type": "color",
+    "property.type": "object",
     "recentFiles": [
         "grass_tileset.tsx",
         "levels/level1.tmx"

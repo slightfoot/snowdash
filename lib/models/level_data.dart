@@ -40,6 +40,7 @@ class LevelLayer {
     required this.visible,
     required this.opacity,
     required this.data,
+    required this.properties,
   });
 
   factory LevelLayer.fromJson(Map<String, dynamic> json) {
@@ -55,6 +56,14 @@ class LevelLayer {
       data: List.unmodifiable(
         (json['data'] as List).cast(),
       ),
+      properties: Map.fromEntries(
+        (json['properties'] as List).map(
+          (el) {
+            final entry = (el as Map).cast<String, dynamic>();
+            return MapEntry<String, dynamic>(entry['name'], entry['value']);
+          },
+        ),
+      ),
     );
   }
 
@@ -67,4 +76,7 @@ class LevelLayer {
   final bool visible;
   final double opacity;
   final List<int> data;
+  final Map<String, dynamic> properties;
+
+  bool get foreground => properties['foreground'] ?? false;
 }

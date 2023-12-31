@@ -16,6 +16,12 @@
          "id":6,
          "name":"Background",
          "opacity":1,
+         "properties":[
+                {
+                 "name":"foreground",
+                 "type":"bool",
+                 "value":false
+                }],
          "type":"tilelayer",
          "visible":true,
          "width":10,
@@ -35,6 +41,12 @@
          "id":1,
          "name":"Layer 1",
          "opacity":1,
+         "properties":[
+                {
+                 "name":"foreground",
+                 "type":"bool",
+                 "value":false
+                }],
          "type":"tilelayer",
          "visible":true,
          "width":10,
@@ -54,6 +66,12 @@
          "id":4,
          "name":"Layer 2",
          "opacity":1,
+         "properties":[
+                {
+                 "name":"foreground",
+                 "type":"bool",
+                 "value":true
+                }],
          "type":"tilelayer",
          "visible":true,
          "width":10,

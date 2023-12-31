@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:snowdash/app/assets.dart';
+import 'package:snowdash/engine/renderer.dart';
 import 'package:snowdash/game/game.dart';
 import 'package:snowdash/models/level_data.dart';
 
@@ -18,6 +19,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   late final SnowDashGame game;
   late final Ticker ticker;
   Duration? lastElapsed;
+  late Renderer renderer;
 
   @override
   void initState() {
@@ -26,6 +28,10 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
       levelData: widget.levelData,
     );
     game.init();
+    renderer = Renderer(
+      level: widget.levelData,
+      images: widget.images,
+    );
     ticker = createTicker(_onTick);
     ticker.start();
   }
@@ -53,9 +59,8 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
           fit: BoxFit.contain,
           child: CustomPaint(
             painter: GamePainter(
+              renderer: renderer,
               game: game,
-              images: widget.images,
-              levelData: widget.levelData,
             ),
             size: const Size(320, 256),
           ),
@@ -67,96 +72,20 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
 
 class GamePainter extends CustomPainter {
   GamePainter({
+    required this.renderer,
     required this.game,
-    required this.images,
-    required this.levelData,
   }) : super(repaint: game);
 
+  final Renderer renderer;
   final SnowDashGame game;
-  final ImageAssets images;
-  final LevelData levelData;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final rect = Offset.zero & size;
-
-    // Draw Background
-    canvas.drawRect(rect, Paint()..color = levelData.backgroundColor);
-
-    final tilePaint = Paint();
-    const tileSize = Size(32, 32);
-    final tileSet = images.getImage(ImageAsset.dashTileSet);
-    final tileStride = tileSet.width ~/ tileSize.width;
-    for (int layerIndex = 0; layerIndex < levelData.layers.length; layerIndex++) {
-      final layer = levelData.layers[layerIndex];
-      if (layer.visible == false) {
-        continue;
-      }
-      for (int row = 0; row < layer.height; row++) {
-        for (int col = 0; col < layer.width; col++) {
-          int tileIndex = row * layer.width + col;
-          int tileValue = layer.data[tileIndex] - 1;
-          if (tileValue < 0) {
-            continue;
-          }
-          final tileCol = (tileValue % tileStride).truncateToDouble();
-          final tileRow = (tileValue / tileStride).truncateToDouble();
-          canvas.drawImageRect(
-            tileSet,
-            Offset(tileCol * 32, tileRow * 32) & tileSize,
-            Offset(col * 32, row * 32) & tileSize,
-            tilePaint,
-          );
-        }
-      }
-    }
-
-    // TODO: Draw Level Layer 0
-
-    // Draw player
-    final gamePadState = game.gamepad.state;
-    final pos = game.pos;
-    Color playerColor;
-    if (gamePadState.buttonA) {
-      playerColor = Colors.red;
-    } else if (gamePadState.buttonB) {
-      playerColor = Colors.green;
-    } else if (gamePadState.buttonC) {
-      playerColor = Colors.blue;
-    } else if (gamePadState.buttonX) {
-      playerColor = Colors.purple;
-    } else if (gamePadState.buttonY) {
-      playerColor = Colors.deepOrange;
-    } else if (gamePadState.buttonZ) {
-      playerColor = Colors.yellow;
-    } else {
-      playerColor = Colors.white;
-    }
-    canvas.drawImage(
-        images.getImage(ImageAsset.dashStanding),
-        Offset(pos.x, pos.y),
-        Paint()
-          ..colorFilter = ColorFilter.mode(
-            playerColor,
-            BlendMode.modulate,
-          ));
-
-    // TODO: Draw Level Layer 1
-
-    //
-    // canvas.drawAtlas(
-    //   atlas,
-    //   transforms,
-    //   rects,
-    //   colors,
-    //   blendMode,
-    //   cullRect,
-    //   paint,
-    // );
+    renderer.render(canvas, size, game);
   }
 
   @override
   bool shouldRepaint(covariant GamePainter oldDelegate) {
-    return images != oldDelegate.images;
+    return renderer != oldDelegate.renderer || game != oldDelegate.game;
   }
 }
