@@ -1,19 +1,19 @@
-import 'dart:ui';
 import 'package:flutter/material.dart' show Colors;
 import 'package:snowdash/game/game_entity.dart';
 import 'package:vector_math/vector_math.dart' hide Colors;
 
-import '../app/assets.dart';
-
 class Player extends SnowDashEntity {
-  Player() : super(id: 'player');
+  Player();
+
+  @override
+  String get id => 'player';
 
   var _playerColor = Colors.white;
 
   @override
   void init() {
-    position = Vector2.zero(); // TODO: load position from level data
-    velocity = Vector2(0.1, 0.1);
+    position.setValues(0.0, 0.0); // TODO: load position from level data
+    velocity.setValues(0.1, 0.1);
   }
 
   @override
@@ -21,7 +21,7 @@ class Player extends SnowDashEntity {
     if (gamepad.isConnected) {
       final gamePadState = gamepad.state;
       final dv = gamePadState.direction;
-      position += dv..multiply(velocity * deltaTime);
+      position.add(dv..multiply(velocity * deltaTime));
 
       // TODO: just testing gamepad input, should remove
       if (gamePadState.buttonA) {

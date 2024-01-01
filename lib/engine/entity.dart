@@ -1,12 +1,10 @@
 part of 'game.dart';
 
 abstract class Entity<G extends Game> {
-  Entity({required this.id});
+  String get id;
 
-  final String id;
-
-  var position = Vector2.zero();
-  var velocity = Vector2.zero();
+  final position = Vector2.zero();
+  final velocity = Vector2.zero();
   G? _game;
 
   G get game => _game!;
@@ -14,7 +12,7 @@ abstract class Entity<G extends Game> {
   void init();
 
   void update(double deltaTime) {
-    position += velocity * deltaTime;
+    position.add(velocity * deltaTime);
   }
 
   void render(Canvas canvas, Size size);
