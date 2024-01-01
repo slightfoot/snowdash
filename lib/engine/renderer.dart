@@ -34,8 +34,8 @@ class Renderer {
       renderLayer(canvas, size, layer);
     }
 
-    // Draw Player
-    renderPlayer(canvas, size, game);
+    // Draw Player and game entity
+    game.render(canvas, size);
 
     // Draw Foreground Layers
     for (final layer in level.layers.where(
@@ -57,28 +57,21 @@ class Renderer {
         if (tileValue < 0) {
           continue;
         }
-        final tileCol = (tileValue % tileStride).truncateToDouble();
-        final tileRow = (tileValue / tileStride).truncateToDouble();
+        final srcOffset = Offset(
+          (tileValue % tileStride).truncateToDouble() * tileSize.width,
+          (tileValue / tileStride).truncateToDouble() * tileSize.height,
+        );
+        final dstOffset = Offset(
+          col * tileSize.width,
+          row * tileSize.height,
+        );
         canvas.drawImageRect(
           tileSet,
-          Offset(tileCol * 32, tileRow * 32) & tileSize,
-          Offset(col * 32, row * 32) & tileSize,
+          srcOffset & tileSize,
+          dstOffset & tileSize,
           tilePaint,
         );
       }
     }
-  }
-
-  void renderPlayer(Canvas canvas, Size size, SnowDashGame game) {
-    // Draw player
-    canvas.drawImage(
-      images.getImage(ImageAsset.dashStanding),
-      Offset(game.pos.x, game.pos.y),
-      Paint()
-        ..colorFilter = ColorFilter.mode(
-          game.playerColor,
-          BlendMode.modulate,
-        ),
-    );
   }
 }

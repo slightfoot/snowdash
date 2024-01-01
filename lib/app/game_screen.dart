@@ -25,7 +25,8 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   void initState() {
     super.initState();
     game = SnowDashGame(
-      levelData: widget.levelData,
+      level: widget.levelData,
+      images: widget.images,
     );
     game.init();
     renderer = Renderer(
@@ -39,7 +40,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   void _onTick(Duration elapsed) {
     lastElapsed ??= elapsed;
     final deltaTime = (lastElapsed! - elapsed).inMicroseconds / Duration.microsecondsPerMillisecond;
-    game.tick(deltaTime);
+    game.update(deltaTime);
     lastElapsed = elapsed;
   }
 

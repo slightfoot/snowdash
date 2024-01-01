@@ -1,56 +1,25 @@
-import 'package:flutter/material.dart' show ChangeNotifier, Color, Colors;
+import 'package:snowdash/app/assets.dart';
+import 'package:snowdash/engine/game.dart';
 import 'package:snowdash/engine/gamepad.dart';
+import 'package:snowdash/game/player.dart';
 import 'package:snowdash/models/level_data.dart';
-import 'package:vector_math/vector_math.dart' hide Colors;
 
-class SnowDashGame extends ChangeNotifier {
+class SnowDashGame extends Game {
   SnowDashGame({
-    required this.levelData,
-  });
-
-  final LevelData levelData;
-
-  final gamepad = Gamepad(0); // primary controller
-
-  var pos = Vector2.zero();
-  var vel = Vector2(0.1, 0.1);
-  Color playerColor = Colors.white;
-
-  void init() {
-    //
+    required this.level,
+    required this.images,
+  }) {
+    gamepad = Gamepad(0); // primary controller
+    addEntity(Player());
   }
+
+  final LevelData level;
+  final ImageAssets images;
+  late final Gamepad gamepad;
 
   @override
-  void dispose() {
-    //
-    super.dispose();
-  }
-
-  void tick(double deltaTime) {
+  void update(double deltaTime) {
     gamepad.updateState();
-
-    if (gamepad.isConnected) {
-      final gamePadState = gamepad.state;
-      final dv = gamePadState.direction;
-      pos += dv..multiply(vel * deltaTime);
-
-      if (gamePadState.buttonA) {
-        playerColor = Colors.red;
-      } else if (gamePadState.buttonB) {
-        playerColor = Colors.green;
-      } else if (gamePadState.buttonC) {
-        playerColor = Colors.blue;
-      } else if (gamePadState.buttonX) {
-        playerColor = Colors.purple;
-      } else if (gamePadState.buttonY) {
-        playerColor = Colors.deepOrange;
-      } else if (gamePadState.buttonZ) {
-        playerColor = Colors.yellow;
-      } else {
-        playerColor = Colors.white;
-      }
-    }
-
-    notifyListeners();
+    super.update(deltaTime);
   }
 }

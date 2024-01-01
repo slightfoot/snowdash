@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
@@ -41,6 +43,8 @@ class Gamepad {
           buttons: infoEx.ref.dwButtons,
         );
       } else {
+        // FIXME: add error logging system
+        // ignore: avoid_print
         print('error: ${result - JOYERR_BASE}');
         _state = GamepadState.disconnected();
       }
