@@ -53,17 +53,20 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox.expand(
-      child: Material(
-        color: Colors.white,
-        child: FittedBox(
-          fit: BoxFit.contain,
-          child: CustomPaint(
-            painter: GamePainter(
-              renderer: renderer,
-              game: game,
+    return GestureDetector(
+      onTap: () => game.fireworks.addFirework(),
+      child: SizedBox.expand(
+        child: Material(
+          color: Colors.black,
+          child: FittedBox(
+            fit: BoxFit.contain,
+            child: CustomPaint(
+              painter: GamePainter(
+                renderer: renderer,
+                game: game,
+              ),
+              size: const Size(320, 256),
             ),
-            size: const Size(320, 256),
           ),
         ),
       ),

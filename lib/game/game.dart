@@ -18,11 +18,20 @@ class SnowDashGame extends Game {
   }) {
     gamepad = Gamepad(0); // primary controller
     addEntity(Player());
+    fireworks = Fireworks();
+    addEntity(fireworks);
   }
 
+  final size = const Size(320, 256);
+  final playField = Aabb2.minMax(
+    Vector2(0.0, 0.0),
+    Vector2(320.0, 256.0),
+  );
   final LevelData level;
   final ImageAssets images;
   late final Gamepad gamepad;
+
+  late final Fireworks fireworks;
 
   @override
   void update(double deltaTime) {
