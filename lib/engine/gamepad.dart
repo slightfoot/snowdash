@@ -45,7 +45,7 @@ class Gamepad {
       } else {
         // FIXME: add error logging system
         // ignore: avoid_print
-        print('error: ${result - JOYERR_BASE}');
+        // print('error: ${result - JOYERR_BASE}');
         _state = GamepadState.disconnected();
       }
     } finally {
