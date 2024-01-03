@@ -3,16 +3,20 @@ import 'package:snowdash/game/game_entity.dart';
 import 'package:vector_math/vector_math.dart' hide Colors;
 
 class Player extends SnowDashEntity {
-  Player();
+  Player({
+    required this.startPosition,
+  });
 
   @override
   String get id => 'player';
+
+  final Vector2 startPosition;
 
   var _playerColor = Colors.white;
 
   @override
   void init() {
-    position.setValues(0.0, 0.0); // TODO: load position from level data
+    position.setFrom(startPosition); // TODO: load position from level data
     velocity.setValues(0.1, 0.1);
   }
 

@@ -9,6 +9,7 @@ import 'package:snowdash/models/level_data.dart';
 import 'package:vector_math/vector_math.dart';
 
 export 'dart:ui';
+export 'package:flutter/material.dart' show Colors;
 export 'package:vector_math/vector_math.dart' hide Colors;
 
 class SnowDashGame extends Game {
@@ -17,7 +18,7 @@ class SnowDashGame extends Game {
     required this.images,
   }) {
     gamepad = Gamepad(0); // primary controller
-    addEntity(Player());
+    addEntity(Player(startPosition: Vector2(320/2,256/2)));
     fireworks = Fireworks();
     addEntity(fireworks);
   }

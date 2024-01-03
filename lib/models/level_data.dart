@@ -2,17 +2,19 @@ import 'dart:ui';
 
 class LevelData {
   const LevelData({
-    required this.tileWidth,
-    required this.tileHeight,
+    required this.width,
+    required this.height,
     required this.backgroundColor,
     required this.layers,
+    required this.tileWidth,
+    required this.tileHeight,
   });
 
   factory LevelData.fromJson(Map<String, dynamic> json) {
     final backgroundColor = (json['backgroundcolor'] as String).substring(1);
     return LevelData(
-      tileWidth: json['tilewidth'] as int,
-      tileHeight: json['tileheight'] as int,
+      width: json['width'] as int,
+      height: json['height'] as int,
       backgroundColor: Color(
         0xFF000000 | int.parse(backgroundColor, radix: 16),
       ),
@@ -20,13 +22,21 @@ class LevelData {
           .cast<Map<String, dynamic>>()
           .map(LevelLayer.fromJson)
           .toList(),
+      tileWidth: json['tilewidth'] as int,
+      tileHeight: json['tileheight'] as int,
     );
   }
 
-  final int tileWidth;
-  final int tileHeight;
+  final int width;
+  final int height;
   final Color backgroundColor;
   final List<LevelLayer> layers;
+  final int tileWidth;
+  final int tileHeight;
+
+  int get pixelWidth => width * tileWidth;
+
+  int get pixelHeight => height * tileHeight;
 }
 
 class LevelLayer {
@@ -57,12 +67,13 @@ class LevelLayer {
         (json['data'] as List).cast(),
       ),
       properties: Map.fromEntries(
-        (json['properties'] as List).map(
-          (el) {
-            final entry = (el as Map).cast<String, dynamic>();
-            return MapEntry<String, dynamic>(entry['name'], entry['value']);
-          },
-        ),
+        (json['properties'] as List?)?.map(
+              (el) {
+                final entry = (el as Map).cast<String, dynamic>();
+                return MapEntry<String, dynamic>(entry['name'], entry['value']);
+              },
+            ) ??
+            {},
       ),
     );
   }

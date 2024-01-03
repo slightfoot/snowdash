@@ -11,3 +11,7 @@ extension OffsetToVector2 on Offset {
 extension Vector2ToOffset on Vector2 {
   Offset toOffset() => Offset(x, y);
 }
+
+extension Aabb2ToRect on Aabb2 {
+  Rect toRect() => Rect.fromLTRB(min.x, min.y, max.x, max.y);
+}

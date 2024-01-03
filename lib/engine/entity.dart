@@ -5,6 +5,7 @@ abstract class Entity<G extends Game> {
 
   final position = Vector2.zero();
   final velocity = Vector2.zero();
+
   G? _game;
 
   G get game => _game!;
