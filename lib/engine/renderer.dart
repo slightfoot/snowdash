@@ -86,11 +86,13 @@ class Renderer {
     );
   }
 
-  void drawAsset(Vector2 offset, ImageAsset asset, [Vector4? colorFilter]) {
-    drawImage(offset, images.getImage(asset), colorFilter);
-  }
-
-  void drawImage(Vector2 offset, Image image, [Vector4? colorFilter]) {
+  void drawImage(
+    Vector2 offset,
+    Image image, {
+    Vector4? colorFilter,
+    bool flipHorizontal = false,
+    bool flipVertical = false,
+  }) {
     final paint = Paint();
     if (colorFilter != null) {
       paint.colorFilter = ColorFilter.mode(
@@ -98,7 +100,17 @@ class Renderer {
         BlendMode.modulate,
       );
     }
+    if (flipHorizontal || flipVertical) {
+      _canvas.save();
+      _canvas.scale(
+        flipHorizontal ? -1.0 : 1.0,
+        flipVertical ? -1.0 : 1.0,
+      );
+    }
     _canvas.drawImage(image, offset.toOffset(), paint);
+    if (flipHorizontal || flipVertical) {
+      _canvas.restore();
+    }
   }
 
   void drawTile(Image tileSet, Aabb2 source, Aabb2 destination) {
