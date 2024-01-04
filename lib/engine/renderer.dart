@@ -30,12 +30,16 @@ class Renderer {
       Vector2(size.width, size.height),
     );
 
+    final camera = game.findEntityById('camera')!;
+    canvas.save();
+    canvas.translate(-camera.position.x, -camera.position.y);
     game.renderAllEntities((entity) {
       canvas.save();
       canvas.translate(entity.position.x, entity.position.y);
       entity.render(this);
       canvas.restore();
     });
+    canvas.restore();
   }
 
   void fillRect(Aabb2 box, Vector4 color) {

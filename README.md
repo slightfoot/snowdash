@@ -9,7 +9,7 @@ from the project directory.
 
 ### Features
 
-- [ ] Camera follower/scrolling
+- [x] Camera follower/scrolling
 - [ ] Only paint visible area of layers
 - [ ] Collision Detection
 - [ ] Gravity/Physics Simulation

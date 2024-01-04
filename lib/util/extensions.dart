@@ -38,3 +38,11 @@ extension ColorToVector4 on Color {
     );
   }
 }
+
+extension ExtensionsOnAabb2 on Aabb2 {
+  double get width => max.x - min.x;
+
+  double get height => max.y - min.y;
+
+  Vector2 get size => max - min;
+}

@@ -56,6 +56,14 @@ class SnowDashGame extends Game {
     Vector2(size.width, size.height),
   );
 
+  late final levelBox = Aabb2.minMax(
+    Vector2(0.0, 0.0),
+    Vector2(
+      level.pixelWidth.toDouble(),
+      level.pixelHeight.toDouble(),
+    ),
+  );
+
   //late final Gamepad gamepad;
   final LevelData level;
   final ImageAssets images;
