@@ -10,7 +10,9 @@ from the project directory.
 ### Features
 
 - [x] Camera follower/scrolling
-- [ ] Only paint visible area of layers
+- [x] Only paint visible area of layers
+- [x] Use drawAtlas for tile painting
+- [x] Better debugging support
 - [ ] Collision Detection
 - [ ] Gravity/Physics Simulation
 - [ ] Platform Intersection

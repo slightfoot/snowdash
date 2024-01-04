@@ -25,7 +25,10 @@ abstract class Entity<G extends Game> {
   void render(Renderer renderer);
 
   @override
-  String toString() => '$runtimeType#$id(pos:$position :: vel:$velocity)';
+  String toString() => '$runtimeType#$id('
+      'pos:${position.x.toInt()},${position.y.toInt()} :: '
+      'vel:${velocity.x.toInt()},${velocity.y.toInt()}'
+      ')';
 
   @override
   bool operator ==(Object other) =>

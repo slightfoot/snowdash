@@ -1,15 +1,15 @@
 import 'package:snowdash/game/game_entity.dart';
 import 'package:snowdash/models/level_data.dart';
+import 'package:snowdash/util/extensions.dart';
 
 class TileLayer extends SnowDashEntity {
-  TileLayer({
-    required ImageAssets images,
-    required this.layer,
-    Vector2? tileSize,
-  }) {
-    this.tileSize = tileSize ?? Vector2(32.0, 32.0);
+  TileLayer(
+    ImageAssets images,
+    this.layer,
+    this.tileSize,
+  ) {
     tileSet = images.getImage(ImageAsset.dashTileSet);
-    tileStride = tileSet.width ~/ this.tileSize.x;
+    tileStride = tileSet.width ~/ tileSize.x;
   }
 
   final LevelLayer layer;
@@ -22,10 +22,17 @@ class TileLayer extends SnowDashEntity {
 
   @override
   void render(Renderer renderer) {
-    // TODO: optimize our tile rendering to use canvas.drawAtlas
-    for (int row = 0; row < layer.height; row++) {
-      for (int col = 0; col < layer.width; col++) {
-        int tileIndex = row * layer.width + col;
+    final min = Vector2.zero(), max = Vector2.zero();
+    Vector2.max(renderer.origin
+      ..divide(tileSize)
+      ..floor(), min, min);
+    Vector2.min((renderer.origin + renderer.bounds.max)
+      ..divide(tileSize)
+      ..ceil(), layer.size, max);
+    final tiles = <({int index, Aabb2 source, Aabb2 destination})>[];
+    for (double row = min.y; row < max.y; row++) {
+      for (double col = min.x; col < max.x; col++) {
+        int tileIndex = (row * layer.width + col).floor();
         int tileValue = layer.data[tileIndex] - 1;
         if (tileValue < 0) {
           continue;
@@ -38,18 +45,17 @@ class TileLayer extends SnowDashEntity {
           col.toDouble(),
           row.toDouble(),
         )..multiply(tileSize);
-        renderer.drawTile(
-          tileSet,
-          Aabb2.minMax(
-            sourceTopLeft,
-            sourceTopLeft + tileSize,
-          ),
-          Aabb2.minMax(
-            destinationTopLeft,
-            destinationTopLeft + tileSize,
-          ),
-        );
+        tiles.add((
+          index: tileIndex,
+          source: Aabb2()
+            ..min.xy = sourceTopLeft
+            ..size = tileSize,
+          destination: Aabb2()
+            ..min.xy = destinationTopLeft
+            ..size = tileSize,
+        ));
       }
     }
+    renderer.drawTiles(tileSet, tiles);
   }
 }

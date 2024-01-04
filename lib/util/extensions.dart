@@ -45,4 +45,20 @@ extension ExtensionsOnAabb2 on Aabb2 {
   double get height => max.y - min.y;
 
   Vector2 get size => max - min;
+
+  Aabb2 operator -(Vector2 vector) {
+    return Aabb2.copy(this)
+      ..min.xy -= vector.xy
+      ..max.xy -= vector.xy;
+  }
+
+  Aabb2 operator +(Vector2 vector) {
+    return Aabb2.copy(this)
+      ..min.xy += vector.xy
+      ..max.xy += vector.xy;
+  }
+
+  set size(Vector2 size) {
+    max.xy = min.xy + size;
+  }
 }

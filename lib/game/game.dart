@@ -26,7 +26,9 @@ class SnowDashGame extends Game {
     for (final layer in level.layers.where(
       (layer) => !layer.foreground && layer.visible,
     )) {
-      addEntity(TileLayer(images: images, layer: layer));
+      addEntity(
+        TileLayer(images, layer, level.tileSize),
+      );
     }
 
     // Add entities that should appear between foreground and background
@@ -37,7 +39,9 @@ class SnowDashGame extends Game {
     for (final layer in level.layers.where(
       (layer) => layer.foreground && layer.visible,
     )) {
-      addEntity(TileLayer(images: images, layer: layer));
+      addEntity(
+        TileLayer(images, layer, level.tileSize),
+      );
     }
 
     addEntity(camera);

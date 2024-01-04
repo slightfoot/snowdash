@@ -45,6 +45,8 @@ class Camera extends SnowDashEntity {
 
   @override
   void render(Renderer renderer) {
-    renderer.strokeRect(renderer.bounds, Colors.red, 2.0);
+    if(renderer.isDebugging) {
+      renderer.strokeRect(renderer.bounds, Colors.red, 2.0);
+    }
   }
 }

@@ -13,7 +13,7 @@ class LevelData {
   factory LevelData.fromJson(Map<String, dynamic> json) {
     final backgroundColorHex = json['backgroundcolor'] as String?;
     final backgroundColor = Colors.black;
-    if(backgroundColorHex != null) {
+    if (backgroundColorHex != null) {
       Colors.fromHexString(backgroundColorHex, backgroundColor);
     }
     return LevelData(
@@ -39,6 +39,13 @@ class LevelData {
   int get pixelWidth => width * tileWidth;
 
   int get pixelHeight => height * tileHeight;
+
+  Vector2 get tileSize {
+    return Vector2(
+      tileWidth.toDouble(),
+      tileHeight.toDouble(),
+    );
+  }
 }
 
 class LevelLayer {
@@ -92,4 +99,8 @@ class LevelLayer {
   final Map<String, dynamic> properties;
 
   bool get foreground => properties['foreground'] ?? false;
+
+  Vector2 get size {
+    return Vector2(width.toDouble(), height.toDouble());
+  }
 }

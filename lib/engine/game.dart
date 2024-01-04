@@ -46,7 +46,7 @@ abstract class Game extends ChangeNotifier {
     notifyListeners();
   }
 
-  void renderAllEntities(void Function(Entity entity) renderEntity) {
+  void entitiesRun(void Function(Entity entity) renderEntity) {
     for (final entity in List.of(_entities)) {
       renderEntity(entity);
     }
