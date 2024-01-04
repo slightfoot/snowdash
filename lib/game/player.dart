@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart' show Colors;
 import 'package:snowdash/game/game_entity.dart';
 
 class Player extends SnowDashEntity {
@@ -10,12 +9,19 @@ class Player extends SnowDashEntity {
   String get id => 'player';
 
   final Vector2 startPosition;
-
+  late final Image _image;
+  final _playerCenter = Vector2.zero();
   var _playerColor = Colors.white;
 
   @override
   void init() {
-    position.setFrom(startPosition); // TODO: load position from level data
+    _image = images.getImage(ImageAsset.dashStanding);
+    _playerCenter.xy = Vector2(
+      -_image.width.toDouble() / 2,
+      -_image.height.toDouble() / 2,
+    );
+    // TODO: load position from level data
+    position.setFrom(startPosition);
     velocity.setValues(0.1, 0.1);
   }
 
@@ -32,15 +38,7 @@ class Player extends SnowDashEntity {
   }
 
   @override
-  void render(Canvas canvas, Size size) {
-    canvas.drawImage(
-      images.getImage(ImageAsset.dashStanding),
-      Offset(position.x, position.y),
-      Paint()
-        ..colorFilter = ColorFilter.mode(
-          _playerColor,
-          BlendMode.modulate,
-        ),
-    );
+  void render(Renderer renderer) {
+    renderer.drawImage(_playerCenter, _image, _playerColor);
   }
 }

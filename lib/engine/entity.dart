@@ -10,15 +10,30 @@ abstract class Entity<G extends Game> {
 
   G get game => _game!;
 
-  void init();
+  bool get isAttached => _game != null;
+
+  bool get isNotAttached => !isAttached;
+
+  void init() {
+    // override to implement initialisation
+  }
 
   void update(double deltaTime) {
     position.add(velocity * deltaTime);
   }
 
-  void render(Canvas canvas, Size size);
+  void render(Renderer renderer);
 
   @override
-  String toString() => '$runtimeType#$id($position :: $velocity)';
-}
+  String toString() => '$runtimeType#$id(pos:$position :: vel:$velocity)';
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Entity && //
+          runtimeType == other.runtimeType &&
+          id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
+}

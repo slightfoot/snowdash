@@ -5,7 +5,8 @@ import 'package:snowdash/game/game.dart';
 
 export 'dart:ui';
 export 'package:snowdash/app/assets.dart';
-export 'package:vector_math/vector_math.dart' hide Colors;
+export 'package:snowdash/engine/renderer.dart';
+export 'package:vector_math/vector_math.dart';
 
 abstract class SnowDashEntity extends Entity<SnowDashGame> {
   ImageAssets get images => game.images;

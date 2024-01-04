@@ -6,3 +6,19 @@ from the project directory.
 
 `flutter create .`
 
+
+### Features
+
+- [ ] Camera follower/scrolling
+- [ ] Only paint visible area of layers
+- [ ] Collision Detection
+- [ ] Gravity/Physics Simulation
+- [ ] Platform Intersection
+- [ ] Enemy Objects with basic AI
+- [ ] Lives / Score system
+- [ ] Win Condition and Level progression
+- [ ] Proper Particle System
+- [ ] Splash/Welcome screen
+- [ ] Menu screen
+- [ ] Settings/Options screen
+

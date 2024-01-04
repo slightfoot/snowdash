@@ -1,8 +1,7 @@
-import 'dart:ui';
-
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart' show ChangeNotifier;
 import 'package:snowdash/engine/input_manager.dart';
+import 'package:snowdash/engine/renderer.dart';
 import 'package:vector_math/vector_math.dart';
 
 part 'entity.dart';
@@ -47,9 +46,9 @@ abstract class Game extends ChangeNotifier {
     notifyListeners();
   }
 
-  void render(Canvas canvas, Size size) {
+  void renderAllEntities(void Function(Entity entity) renderEntity) {
     for (final entity in List.of(_entities)) {
-      entity.render(canvas, size);
+      renderEntity(entity);
     }
   }
 

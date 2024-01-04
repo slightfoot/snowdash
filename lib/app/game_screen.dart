@@ -3,7 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:snowdash/app/assets.dart';
 import 'package:snowdash/engine/input_manager.dart';
 import 'package:snowdash/engine/renderer.dart';
-import 'package:snowdash/game/game.dart';
+import 'package:snowdash/game/game.dart' hide Colors;
 import 'package:snowdash/models/level_data.dart';
 
 class GameScreen extends StatefulWidget {
@@ -31,6 +31,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     );
     game.init();
     renderer = Renderer(
+      game: game,
       level: widget.levelData,
       images: widget.images,
     );
@@ -65,10 +66,10 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
               fit: BoxFit.contain,
               child: CustomPaint(
                 painter: GamePainter(
-                  renderer: renderer,
                   game: game,
+                  renderer: renderer,
                 ),
-                size: const Size(320, 256),
+                size: SnowDashGame.size,
               ),
             ),
           ),
@@ -80,20 +81,19 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
 
 class GamePainter extends CustomPainter {
   GamePainter({
+    required SnowDashGame game,
     required this.renderer,
-    required this.game,
   }) : super(repaint: game);
 
   final Renderer renderer;
-  final SnowDashGame game;
 
   @override
   void paint(Canvas canvas, Size size) {
-    renderer.render(canvas, size, game);
+    renderer.render(canvas, size);
   }
 
   @override
   bool shouldRepaint(covariant GamePainter oldDelegate) {
-    return renderer != oldDelegate.renderer || game != oldDelegate.game;
+    return renderer != oldDelegate.renderer;
   }
 }

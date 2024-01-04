@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as material show Colors;
 import 'package:snowdash/game/game_entity.dart';
 import 'package:snowdash/util/extensions.dart';
 
@@ -19,18 +19,22 @@ class Fireworks extends SnowDashEntity {
   }
 
   void addFirework() {
+    if(isNotAttached) {
+      return;
+    }
+    final randomColor = material.Colors.primaries[//
+            _random.nextInt(material.Colors.primaries.length)];
     _particles.add(
       _Particle(
         position: Vector2(
-          _random.nextDouble() * game.size.width,
-          _random.nextDouble() * game.size.height,
+          _random.nextDouble() * game.playField.max.x,
+          _random.nextDouble() * game.playField.max.y,
         ),
         velocity: Vector2(
           cos(pi * _random.nextDouble()) * 0.03,
           sin(pi * _random.nextDouble()) * 0.06,
         ),
-        color: Colors.primaries[//
-            _random.nextInt(Colors.primaries.length)],
+        color: randomColor.toVector4(),
       )..addForce(Vector2(0.0, 0.00001)),
     );
   }
@@ -47,12 +51,12 @@ class Fireworks extends SnowDashEntity {
   }
 
   @override
-  void render(Canvas canvas, Size size) {
+  void render(Renderer renderer) {
     for (final p in List.of(_particles)) {
-      canvas.drawCircle(
-        p.position.toOffset(),
+      renderer.drawCircle(
+        p.position,
         4.0,
-        Paint()..color = p.color,
+        p.color
       );
     }
   }
@@ -63,7 +67,7 @@ class _Particle {
     Vector2? position,
     Vector2? velocity,
     Vector2? acceleration,
-    Color? color,
+    Vector4? color,
   }) {
     this.position = position ?? Vector2.zero();
     this.velocity = velocity ?? Vector2.zero();
@@ -74,7 +78,7 @@ class _Particle {
   late final Vector2 position;
   late final Vector2 velocity;
   late final Vector2 acceleration;
-  late Color color;
+  late final Vector4 color;
 
   void addForce(Vector2 force) {
     acceleration.add(force);

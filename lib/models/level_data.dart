@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'package:vector_math/vector_math.dart';
 
 class LevelData {
   const LevelData({
@@ -11,13 +11,15 @@ class LevelData {
   });
 
   factory LevelData.fromJson(Map<String, dynamic> json) {
-    final backgroundColor = (json['backgroundcolor'] as String).substring(1);
+    final backgroundColorHex = json['backgroundcolor'] as String?;
+    final backgroundColor = Colors.black;
+    if(backgroundColorHex != null) {
+      Colors.fromHexString(backgroundColorHex, backgroundColor);
+    }
     return LevelData(
       width: json['width'] as int,
       height: json['height'] as int,
-      backgroundColor: Color(
-        0xFF000000 | int.parse(backgroundColor, radix: 16),
-      ),
+      backgroundColor: backgroundColor,
       layers: (json['layers'] as List) //
           .cast<Map<String, dynamic>>()
           .map(LevelLayer.fromJson)
@@ -29,7 +31,7 @@ class LevelData {
 
   final int width;
   final int height;
-  final Color backgroundColor;
+  final Vector4 backgroundColor;
   final List<LevelLayer> layers;
   final int tileWidth;
   final int tileHeight;

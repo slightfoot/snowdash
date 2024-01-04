@@ -2,14 +2,16 @@ import 'dart:ui';
 
 import 'package:snowdash/app/assets.dart';
 import 'package:snowdash/engine/game.dart';
+import 'package:snowdash/game/background.dart';
+import 'package:snowdash/game/camera.dart';
 import 'package:snowdash/game/fireworks.dart';
 import 'package:snowdash/game/player.dart';
+import 'package:snowdash/game/tile_layer.dart';
 import 'package:snowdash/models/level_data.dart';
 import 'package:vector_math/vector_math.dart';
 
 export 'dart:ui';
-export 'package:flutter/material.dart' show Colors;
-export 'package:vector_math/vector_math.dart' hide Colors;
+export 'package:vector_math/vector_math.dart';
 
 class SnowDashGame extends Game {
   SnowDashGame({
@@ -17,21 +19,46 @@ class SnowDashGame extends Game {
     required this.images,
   }) {
     //gamepad = Gamepad(0); // primary controller
-    addEntity(Player(startPosition: Vector2(320/2,256/2)));
-    fireworks = Fireworks();
+
+    addEntity(Background(level));
+
+    // Add background layers
+    for (final layer in level.layers.where(
+      (layer) => !layer.foreground && layer.visible,
+    )) {
+      addEntity(TileLayer(images: images, layer: layer));
+    }
+
+    // Add entities that should appear between foreground and background
+    addEntity(player);
     addEntity(fireworks);
+
+    // Add foreground layers
+    for (final layer in level.layers.where(
+      (layer) => layer.foreground && layer.visible,
+    )) {
+      addEntity(TileLayer(images: images, layer: layer));
+    }
+
+    addEntity(camera);
   }
 
-  final size = const Size(320, 256);
+  static const size = Size(320, 256);
+
+  final camera = Camera();
+  final player = Player(
+    startPosition: Vector2(size.width / 2, size.height / 2),
+  );
+  final fireworks = Fireworks();
+
   final playField = Aabb2.minMax(
     Vector2(0.0, 0.0),
-    Vector2(320.0, 256.0),
+    Vector2(size.width, size.height),
   );
+
+  //late final Gamepad gamepad;
   final LevelData level;
   final ImageAssets images;
-  //late final Gamepad gamepad;
-
-  late final Fireworks fireworks;
 
   @override
   void update(double deltaTime) {
