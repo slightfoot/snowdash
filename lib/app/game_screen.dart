@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:snowdash/app/assets.dart';
+import 'package:snowdash/engine/input_manager.dart';
 import 'package:snowdash/engine/renderer.dart';
 import 'package:snowdash/game/game.dart';
 import 'package:snowdash/models/level_data.dart';
@@ -55,17 +56,20 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => game.fireworks.addFirework(),
-      child: SizedBox.expand(
-        child: Material(
-          color: Colors.black,
-          child: FittedBox(
-            fit: BoxFit.contain,
-            child: CustomPaint(
-              painter: GamePainter(
-                renderer: renderer,
-                game: game,
+      child: InputHost(
+        inputManager: game.inputManager,
+        child: SizedBox.expand(
+          child: Material(
+            color: Colors.black,
+            child: FittedBox(
+              fit: BoxFit.contain,
+              child: CustomPaint(
+                painter: GamePainter(
+                  renderer: renderer,
+                  game: game,
+                ),
+                size: const Size(320, 256),
               ),
-              size: const Size(320, 256),
             ),
           ),
         ),

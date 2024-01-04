@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:snowdash/app/assets.dart';
 import 'package:snowdash/engine/game.dart';
-import 'package:snowdash/engine/gamepad.dart';
 import 'package:snowdash/game/fireworks.dart';
 import 'package:snowdash/game/player.dart';
 import 'package:snowdash/models/level_data.dart';
@@ -17,7 +16,7 @@ class SnowDashGame extends Game {
     required this.level,
     required this.images,
   }) {
-    gamepad = Gamepad(0); // primary controller
+    //gamepad = Gamepad(0); // primary controller
     addEntity(Player(startPosition: Vector2(320/2,256/2)));
     fireworks = Fireworks();
     addEntity(fireworks);
@@ -30,13 +29,13 @@ class SnowDashGame extends Game {
   );
   final LevelData level;
   final ImageAssets images;
-  late final Gamepad gamepad;
+  //late final Gamepad gamepad;
 
   late final Fireworks fireworks;
 
   @override
   void update(double deltaTime) {
-    gamepad.updateState();
+    //gamepad.updateState();
     super.update(deltaTime);
   }
 }

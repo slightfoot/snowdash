@@ -2,12 +2,15 @@ import 'dart:ui';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart' show ChangeNotifier;
+import 'package:snowdash/engine/input_manager.dart';
 import 'package:vector_math/vector_math.dart';
 
 part 'entity.dart';
 
 abstract class Game extends ChangeNotifier {
   final _entities = <Entity>{};
+
+  final inputManager = InputManager();
 
   E? findEntityById<E extends Entity>(String id) {
     return _entities.firstWhereOrNull((e) => e.id == id) as E?;
