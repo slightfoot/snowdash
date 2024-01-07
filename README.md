@@ -6,6 +6,10 @@ from the project directory.
 
 `flutter create .`
 
+### Level Editor
+
+We are using Tiled as our level editor, it is open source and 
+can be downloaded from https://www.mapeditor.org/
 
 ### Features
 
