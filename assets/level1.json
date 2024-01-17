@@ -32,7 +32,7 @@
                  "value":false
                 }],
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":20,
          "x":0,
          "y":0
@@ -56,6 +56,7 @@
             106, 107, 107, 107, 107, 18, 18, 18, 18, 18, 107, 107, 107, 18, 107, 107, 107, 107, 107, 18],
          "height":16,
          "id":1,
+         "locked":true,
          "name":"Layer 1",
          "opacity":1,
          "properties":[
@@ -63,6 +64,11 @@
                  "name":"foreground",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"solid",
+                 "type":"bool",
+                 "value":true
                 }],
          "type":"tilelayer",
          "visible":true,
@@ -89,10 +95,11 @@
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
          "height":16,
          "id":10,
+         "locked":true,
          "name":"Springs",
          "opacity":1,
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":20,
          "x":0,
          "y":0
@@ -126,7 +133,7 @@
                  "value":true
                 }],
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":20,
          "x":0,
          "y":0

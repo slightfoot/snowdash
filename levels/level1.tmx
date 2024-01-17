@@ -4,7 +4,7 @@
   <export target="../assets/level1.json" format="json"/>
  </editorsettings>
  <tileset firstgid="1" source="../grass_tileset.tsx"/>
- <layer id="6" name="Background" width="20" height="16" locked="1">
+ <layer id="6" name="Background" width="20" height="16" visible="0" locked="1">
   <properties>
    <property name="foreground" type="bool" value="false"/>
   </properties>
@@ -27,9 +27,10 @@
 0,0,0,0,0,0,0,0,0,0,0,0,159,159,159,159,159,159,159,159
 </data>
  </layer>
- <layer id="1" name="Layer 1" width="20" height="16">
+ <layer id="1" name="Layer 1" width="20" height="16" locked="1">
   <properties>
    <property name="foreground" type="bool" value="false"/>
+   <property name="solid" type="bool" value="true"/>
   </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -50,7 +51,7 @@
 106,107,107,107,107,18,18,18,18,18,107,107,107,18,107,107,107,107,107,18
 </data>
  </layer>
- <layer id="10" name="Springs" width="20" height="16">
+ <layer id="10" name="Springs" width="20" height="16" visible="0" locked="1">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -70,7 +71,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="4" name="Layer 2" width="20" height="16" locked="1">
+ <layer id="4" name="Layer 2" width="20" height="16" visible="0" locked="1">
   <properties>
    <property name="foreground" type="bool" value="true"/>
   </properties>

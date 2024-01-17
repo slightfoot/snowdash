@@ -100,6 +100,8 @@ class LevelLayer {
 
   bool get foreground => properties['foreground'] ?? false;
 
+  bool get solid => properties['solid'] ?? false;
+
   Vector2 get size {
     return Vector2(width.toDouble(), height.toDouble());
   }
