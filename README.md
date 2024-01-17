@@ -17,7 +17,8 @@ can be downloaded from https://www.mapeditor.org/
 - [x] Only paint visible area of layers
 - [x] Use drawAtlas for tile painting
 - [x] Better debugging support
-- [ ] Collision Detection
+- [x] Basic Collision Detection
+- [ ] Advanced Collision Detection
 - [ ] Gravity/Physics Simulation
 - [ ] Platform Intersection
 - [ ] Enemy Objects with basic AI

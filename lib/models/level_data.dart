@@ -1,4 +1,7 @@
+import 'package:snowdash/util/extensions.dart';
 import 'package:vector_math/vector_math.dart';
+
+typedef TileCollision = ({int layer, int index, int value, Aabb2 intersection});
 
 class LevelData {
   const LevelData({
@@ -45,6 +48,38 @@ class LevelData {
       tileWidth.toDouble(),
       tileHeight.toDouble(),
     );
+  }
+
+  List<TileCollision> collisionTest(Aabb2 bounds) {
+    final tiles = <TileCollision>[];
+    for (int layerIndex = 0; layerIndex < layers.length; layerIndex++) {
+      final layer = layers[layerIndex];
+      if (layer.solid == false) {
+        continue;
+      }
+      final tileBounds = Aabb2();
+      for (var row = 0; row < layer.height; row++) {
+        for (var col = 0; col < layer.width; col++) {
+          final index = row * layer.width + col;
+          final value = layer.data[index];
+          if (value != 0) {
+            tileBounds.min
+              ..setValues(col.toDouble(), row.toDouble())
+              ..multiply(tileSize);
+            tileBounds.size = tileSize;
+            if (tileBounds.intersectsWithAabb2(bounds)) {
+              tiles.add((
+                layer: layerIndex,
+                index: index,
+                value: value,
+                intersection: tileBounds.intersection(bounds),
+              ));
+            }
+          }
+        }
+      }
+    }
+    return tiles;
   }
 }
 

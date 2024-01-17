@@ -1,21 +1,25 @@
 import 'package:snowdash/game/game_entity.dart';
+import 'package:snowdash/models/level_data.dart';
+import 'package:snowdash/util/extensions.dart';
 
 class Player extends SnowDashEntity {
   Player({
     required this.startPosition,
+    required this.level,
   });
 
   @override
   String get id => 'player';
 
   final Vector2 startPosition;
+  final LevelData level;
+
   late final ImageAsset _asset;
   late final Image _image;
   final _playerCenter = Vector2.zero();
 
   var _playerColor = Colors.white;
-  final _movementAxis = Vector2.zero();
-
+  var _flipHorizontal = false;
 
   @override
   void init() {
@@ -37,9 +41,32 @@ class Player extends SnowDashEntity {
 
   @override
   void update(double deltaTime) {
-    final dv = input.player1Axis;
-    _movementAxis.xy = -dv.xy;
-    position.add(dv..multiply(velocity * deltaTime));
+    final directionVector = input.player1Axis;
+    if (directionVector.x < 0) {
+      _flipHorizontal = false;
+    } else if (directionVector.x > 0) {
+      _flipHorizontal = true;
+    }
+
+    // Collision test loop
+    final directionDelta = directionVector..multiply(velocity * deltaTime);
+    final box = Aabb2.copy(bounds);
+    box.min.add(directionDelta);
+    box.max.add(directionDelta);
+
+    // Check for collisions and adjust direction vector
+    final tiles = level.collisionTest(box);
+    if (tiles.isNotEmpty) {
+      print('tiles: ${tiles.map((el) => el.intersection.toDebugString()).toList()}');
+      // adjust direction vector
+      directionVector.setValues(0.0, 0.0);
+    }
+
+    // Apply direction vector
+    position.add(
+      directionVector,
+    );
+
     if (input.player1Action) {
       _playerColor = Colors.red;
     } else {
@@ -53,7 +80,7 @@ class Player extends SnowDashEntity {
       _playerCenter,
       _image,
       colorFilter: _playerColor,
-      flipHorizontal: _movementAxis.x < 0,
+      flipHorizontal: _flipHorizontal,
     );
   }
 }

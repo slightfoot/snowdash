@@ -32,6 +32,10 @@ class SnowDashGame extends Game {
     }
 
     // Add entities that should appear between foreground and background
+    player = Player(
+      startPosition: Vector2(size.width / 2, size.height / 2),
+      level: level,
+    );
     addEntity(player);
     addEntity(fireworks);
 
@@ -50,9 +54,7 @@ class SnowDashGame extends Game {
   static const size = Size(320, 256);
 
   final camera = Camera();
-  final player = Player(
-    startPosition: Vector2(size.width / 2, size.height / 2),
-  );
+  late final Player player;
   final fireworks = Fireworks();
 
   final playField = Aabb2.minMax(

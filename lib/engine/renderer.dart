@@ -1,5 +1,4 @@
 import 'dart:ui' as ui;
-import 'dart:math' as math;
 
 import 'package:flutter/rendering.dart';
 import 'package:snowdash/app/assets.dart';

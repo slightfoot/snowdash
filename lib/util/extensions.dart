@@ -50,6 +50,14 @@ extension ExtensionsOnAabb2 on Aabb2 {
 
   Vector2 get size => max - min;
 
+  Aabb2 intersection(Aabb2 other) {
+    final newMin = Vector2.zero();
+    final newMax = Vector2.zero();
+    Vector2.max(Vector2.zero(), min - other.min, newMin);
+    Vector2.max(Vector2.zero(), max - other.max, newMax);
+    return Aabb2.minMax(newMin, newMax);
+  }
+
   Aabb2 operator -(Vector2 vector) {
     return Aabb2.copy(this)
       ..min.xy -= vector.xy
