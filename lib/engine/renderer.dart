@@ -51,20 +51,19 @@ class Renderer {
       _canvas.save();
       _canvas.translate(entity.position.x, entity.position.y);
       entity.render(this);
+      _canvas.restore();
       if (isDebugging) {
-        final label = Vector2(-8.0, -12.0);
-        drawCircle(
-          label,
-          2.0,
+        strokeRect(
+          entity.bounds,
           Colors.yellow,
+          0.5,
         );
         drawText(
-          label + Vector2(3.0, -2.0),
+          entity.position + Vector2(-8.0, -14.0),
           entity.toString(),
           fontSize: 3.0,
         );
       }
-      _canvas.restore();
     });
     _canvas.restore();
   }

@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart' show ChangeNotifier;
 import 'package:snowdash/engine/input_manager.dart';
 import 'package:snowdash/engine/renderer.dart';
+import 'package:snowdash/util/extensions.dart';
 import 'package:vector_math/vector_math.dart';
 
 part 'entity.dart';

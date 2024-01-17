@@ -23,6 +23,7 @@ class Player extends SnowDashEntity {
     // TODO: load position from level data
     position.setFrom(startPosition);
     velocity.setValues(0.1, 0.1);
+    size.setValues(16.0, 16.0);
   }
 
   void updateImage(ImageAsset asset) {

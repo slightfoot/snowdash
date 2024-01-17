@@ -5,6 +5,9 @@ abstract class Entity<G extends Game> {
 
   final position = Vector2.zero();
   final velocity = Vector2.zero();
+  final size = Vector2.zero();
+
+  final _bounds = Aabb2();
 
   G? _game;
 
@@ -13,6 +16,11 @@ abstract class Entity<G extends Game> {
   bool get isAttached => _game != null;
 
   bool get isNotAttached => !isAttached;
+
+  Aabb2 get bounds {
+    _bounds.setCenterAndHalfExtents(position, size / 2);
+    return _bounds;
+  }
 
   void init() {
     // override to implement initialisation
@@ -26,8 +34,8 @@ abstract class Entity<G extends Game> {
 
   @override
   String toString() => '$runtimeType#$id('
-      'pos:${position.x.toInt()},${position.y.toInt()} :: '
-      'vel:${velocity.x.toInt()},${velocity.y.toInt()}'
+      'bounds: ${bounds.toDebugString()} :: '
+      'vel: ${velocity.toDebugString()}'
       ')';
 
   @override

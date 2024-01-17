@@ -10,6 +10,10 @@ extension OffsetToVector2 on Offset {
 
 extension Vector2ToOffset on Vector2 {
   Offset toOffset() => Offset(x, y);
+
+  String toDebugString() {
+    return '(${x.toInt()}, ${y.toInt()})';
+  }
 }
 
 extension Aabb2ToRect on Aabb2 {
@@ -60,5 +64,9 @@ extension ExtensionsOnAabb2 on Aabb2 {
 
   set size(Vector2 size) {
     max.xy = min.xy + size;
+  }
+
+  String toDebugString() {
+    return '${min.toDebugString()}-${max.toDebugString()}::${size.toDebugString()}';
   }
 }
