@@ -46,7 +46,7 @@ class TileLayer extends SnowDashEntity {
           row.toDouble(),
         )..multiply(tileSize);
         tiles.add((
-          index: tileIndex,
+          index: tileValue,
           source: Aabb2()
             ..min.xy = sourceTopLeft
             ..size = tileSize,
